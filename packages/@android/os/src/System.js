@@ -1,8 +1,5 @@
-import { createRequire } from 'module';
-import util from 'util'
-
-const require = createRequire(import.meta.url);
-const { getenv, setenv, cmd } = require('/data/data/io.spck/files/android-log/build/Release/android-os.node')
+const util = require('util');
+const { getenv, setenv, cmd } = require('android-binding')('android-os');
 
 class System {
   static cmd(c, ...data) {
@@ -52,4 +49,4 @@ class System {
   }
 }
 
-export {System}
+module.exports = { System }

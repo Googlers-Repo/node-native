@@ -1,8 +1,5 @@
-import { createRequire } from 'module';
-import util from 'util'
-
-const require = createRequire(import.meta.url);
-const { __android_log_write } = require("/data/data/io.spck/files/android-log/build/Release/android-util.node");
+const util = require('util')
+const { __android_log_write } = require('android-binding')("android-util");
 
 class Log {
   static VERBOSE = 2;
@@ -27,4 +24,4 @@ class Log {
   }
 }
 
-export  {Log};
+module.exports = { Log };

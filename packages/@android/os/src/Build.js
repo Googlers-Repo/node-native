@@ -1,4 +1,4 @@
-import {SystemProperties} from './SystemProperties.js'
+const { SystemProperties } = require('./SystemProperties.js')
 
 class Build {
   static TAG = "Build";
@@ -95,4 +95,4 @@ class Build {
   static IS_ARC = SystemProperties.getBoolean("ro.boot.container", false);
 }
 
-export  {Build};
+module.exports  ={ Build };

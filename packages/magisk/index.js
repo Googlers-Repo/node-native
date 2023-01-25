@@ -1,1 +1,6 @@
-export * from './src/Log.js'
+
+const {Magisk} = require('./src/Magisk.js')
+
+module.exports = {
+  Magisk
+}

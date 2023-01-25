@@ -9,6 +9,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env, "getenv"), Napi::Function::New(env, Get));
   exports.Set(Napi::String::New(env, "setenv"), Napi::Function::New(env, Set));
   exports.Set(Napi::String::New(env, "cmd"), Napi::Function::New(env, Cmd));
+  exports.Set(Napi::String::New(env, "execve"), Napi::Function::New(env, Execve));
   return exports;
 }
 

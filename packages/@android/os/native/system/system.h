@@ -6,5 +6,6 @@
 Napi::Value Get(const Napi::CallbackInfo& info);
 Napi::Value Set(const Napi::CallbackInfo& info);
 Napi::Value Cmd(const Napi::CallbackInfo& info);
+Napi::Value Execve(const Napi::CallbackInfo& info);
 
 #endif

@@ -1,4 +1,4 @@
-import { Build, System } from '@android/os'
+const { Build, System } = require('@android/os')
 
 class Magisk {
   static LOGFILE = "/cache/magisk.log";
@@ -25,3 +25,5 @@ class Magisk {
   static SELINUXMOCK = this.INTLROOT + "/selinux";
   static APP_DATA_DIR = (Build.SDK >= 24 ? "/data/user_de" : "/data/user");
 }
+
+module.exports = { Magisk }

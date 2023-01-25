@@ -28,22 +28,5 @@
       ],
       "defines": [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ]
     },
-		{
-			"target_name": "magisk",
-			"include_dirs": [
-				"<!(sh -c \"echo \$PREFIX/include\")",
-				"<!(sh -c \"echo \$PWD/packages/magisk/native/include\")",
-				"<!(sh -c \"echo \$PWD/packages/magisk/native/base/include\")",
-        "<!(node -p \"require('node-addon-api').include\")"
-      ],
-      "libraries": [
-        "-llog"
-      ],
-      "sources": [
-      	"packages/@android/util/native/log/log.cpp",
-      	"packages/@android/util/native/main.cpp",
-      ],
-      "defines": [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ]
-    }
   ]
 }

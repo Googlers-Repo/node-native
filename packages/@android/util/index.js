@@ -1,1 +1,5 @@
-export * from './src/Log.js'
+const { Log } = require('./src/Log.js')
+
+module.exports = {
+  Log
+}
