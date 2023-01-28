@@ -3,6 +3,8 @@
 
 #include <napi.h>
 
-Napi::Value Write(const Napi::CallbackInfo& info);
+using namespace Napi;
+
+Value Write(const CallbackInfo& info);
 
 #endif

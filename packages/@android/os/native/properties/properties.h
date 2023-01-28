@@ -3,7 +3,9 @@
 
 #include <napi.h>
 
-Napi::Value GetProp(const Napi::CallbackInfo& info);
-Napi::Value SetProp(const Napi::CallbackInfo& info);
+using namespace Napi;
+
+Value GetProp(const CallbackInfo& info);
+Value SetProp(const CallbackInfo& info);
 
 #endif

@@ -3,9 +3,11 @@
 
 #include <napi.h>
 
-Napi::Value Get(const Napi::CallbackInfo& info);
-Napi::Value Set(const Napi::CallbackInfo& info);
-Napi::Value Cmd(const Napi::CallbackInfo& info);
-Napi::Value Execve(const Napi::CallbackInfo& info);
+using namespace Napi;
+
+Value Get(const CallbackInfo& info);
+Value Set(const CallbackInfo& info);
+Value Cmd(const CallbackInfo& info);
+Value Execve(const CallbackInfo& info);
 
 #endif

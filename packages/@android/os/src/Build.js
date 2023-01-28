@@ -95,4 +95,4 @@ class Build {
   static IS_ARC = SystemProperties.getBoolean("ro.boot.container", false);
 }
 
-module.exports  ={ Build };
+module.exports = { Build };

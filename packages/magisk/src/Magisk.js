@@ -24,6 +24,15 @@ class Magisk {
   static ZYGISKBIN = this.INTLROOT + "/zygisk";
   static SELINUXMOCK = this.INTLROOT + "/selinux";
   static APP_DATA_DIR = (Build.SDK >= Build.VERSION_CODES.N ? "/data/user_de" : "/data/user");
+  
+  static installed() {
+    const paths = [ "/system/app/Superuser.apk", "/sbin/su", "/system/bin/su", "/system/xbin/su", "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
+                "/system/bin/failsafe/su", "/data/local/su", "/su/bin/su"];
+        for (path in paths) {
+            if (new File(path).exists()) return true;
+        }
+        return false;
+  }
 }
 
 

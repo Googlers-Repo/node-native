@@ -2,8 +2,10 @@
 
 #include "log/log.h"
 
-Napi::Object Init(Napi::Env env, Napi::Object exports) {
-  exports.Set(Napi::String::New(env, "__android_log_write"), Napi::Function::New(env, Write));
+using namespace Napi;
+
+Object Init(Env env, Object exports) {
+  exports.Set(String::New(env, "__android_log_write"), Function::New(env, Write));
   return exports;
 }
 
