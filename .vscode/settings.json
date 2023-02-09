@@ -1,3 +1,4 @@
 {
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "git.path": "/data/mkuser/home/u0_a188/.local/bin/git"
 }
