@@ -1,0 +1,23 @@
+{
+  "name": "android",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "clean-native": "node-gyp clean",
+    "build-native": "node-gyp build",
+    "configure-native": "node-gyp configure"
+  },
+  "author": "Der_Googler",
+  "license": "MIT",
+  "gypfile": true,
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "node-addon-api": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "typescript": "^4.9.5"
+  }
+}
