@@ -7,4 +7,7 @@ const { System, SystemProperties, Build } = require(".")
 
 const locked = SystemProperties.get("ro.boot.flash.locked")
 
-console.log(Build.LOCKED)
+// console.log(Build.LOCKED)
+
+
+console.log(Build.VERSION.require(33))
