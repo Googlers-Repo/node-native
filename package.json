@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "clean-native": "node-gyp clean",
-    "build-native": "node-gyp build",
-    "configure-native": "node-gyp configure"
+    "clean": "node-gyp clean",
+    "build": "node-gyp build",
+    "configure": "node-gyp configure"
   },
   "author": "Der_Googler",
   "license": "MIT",
