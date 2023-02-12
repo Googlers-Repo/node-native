@@ -62,16 +62,13 @@ Napi::Value BaseProperties::GetProp(const Napi::CallbackInfo& info) {
   string def = info[1].As<Napi::String>();
   
   char value[PROP_VALUE_MAX] = {0};
-  if (__system_property_get(name.c_str(), value)) {
-    if (strlen (value) == 0) {
-      return Napi::String::New(env, def);
-    } else {
-      return Napi::String::New(env, value);
-    }
+  __system_property_get(name.c_str(), value);
+  if (strlen (value) == 0) {
+    return Napi::String::New(env, def);
   } else {
-    Napi::Error::New(env, "Seems that you not running an Android OS").ThrowAsJavaScriptException();
-    return env.Null();
+    return Napi::String::New(env, value);
   }
+
 
 }
 

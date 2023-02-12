@@ -9,6 +9,7 @@
             "sources": [
                 "src/os/system.cpp",
                 "src/os/properties.cpp",
+                "src/os/environment.cpp",
                 "src/android-os.cpp",
             ],
             "defines": ["NAPI_DISABLE_CPP_EXCEPTIONS"],
