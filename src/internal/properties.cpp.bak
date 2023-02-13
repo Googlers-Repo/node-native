@@ -93,6 +93,18 @@ int property_get(const char* key, char* value, const char* default_value) {
     return len;
 }
 
+int property_list(void (*propfn)(const char *key, const char *value, void *cookie), void *cookie) {
+    char name[PROP_NAME_MAX];
+    char value[PROP_VALUE_MAX];
+    const prop_info *pi;
+    unsigned n;
+    
+    for(n = 0; (pi = __system_property_find_nth(n)); n++) {
+        __system_property_read(pi, name, value);
+        propfn(name, value, cookie);
+    }
+    return 0;
+}
 /*
 #if __has_include(<sys/system_properties.h>)
 

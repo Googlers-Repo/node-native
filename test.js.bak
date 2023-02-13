@@ -12,7 +12,11 @@ const { System, SystemProperties, Build, Environment } = require(".");
 //const sdk = SystemProperties.native_getInt("ro.build.version.sdk")
 //console.log(sdk)
 
-const props = SystemProperties.list()
+let props = []
+
+SystemProperties.list((name, val) => {
+props.push("key: "+name)
+})
 
 console.log(props)
 
