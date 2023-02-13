@@ -13,6 +13,8 @@ class BaseProperties : public Napi::ObjectWrap<BaseProperties> {
 
   private:
     static Napi::Value GetProp(const Napi::CallbackInfo& info);
+    static Napi::Value GetPropBool(const Napi::CallbackInfo& info);
+    static Napi::Value GetPropInt(const Napi::CallbackInfo& info);
     static Napi::Value SetProp(const Napi::CallbackInfo& info);
 };
 

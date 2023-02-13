@@ -7,6 +7,7 @@
                 "<!(node -p \"require('node-addon-api').include_dir\")",
             ],
             "sources": [
+                "src/internal/properties.cpp",
                 "src/os/system.cpp",
                 "src/os/properties.cpp",
                 "src/os/environment.cpp",
@@ -20,10 +21,10 @@
                 "<!(sh -c \"echo \$PWD/include\")",
                 "<!(node -p \"require('node-addon-api').include_dir\")",
             ],    
-            # "cflags_cc!": ["-Wall", "-Wextra", "-Werror", "-std=c++14", "-fno-exceptions"],
+            "cflags_cc!": [ "-Wno-exit-time-destructors" ],
             # "libraries": ["-llog", "-lOpenSLES"],
             "libraries": ["-llog"],
-            "sources": [
+            "sources": [    
                 "src/util/log.cpp",
                 "src/util/sleep.cpp",
                 # "src/util/audioplayer.cpp",

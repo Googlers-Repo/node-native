@@ -32,6 +32,7 @@ Napi::Object BaseSystem::Init(Napi::Env env, Napi::Object exports) {
         StaticMethod<&BaseSystem::GetEnv>("getenv", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
         StaticMethod<&BaseSystem::SetEnv>("setenv", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
         StaticMethod<&BaseSystem::Cmd>("cmd", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
+        StaticMethod<&BaseSystem::Spawn>("spawn", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
         StaticMethod<&BaseSystem::CreateNewItem>("CreateNewItem", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
     });
 
@@ -132,6 +133,42 @@ Napi::Value BaseSystem::Cmd(const Napi::CallbackInfo& info) {
   }
   
   return Napi::String::New(env, result);
+}
+
+Napi::Value BaseSystem::Spawn(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  
+  if (info.Length() < 2) {
+    Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+  
+  if (!info[0].IsString()) {
+    Napi::TypeError::New(env, "The command should be an string").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  if (!info[1].IsFunction()) {
+    Napi::TypeError::New(env, "the calback should be an function").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+  
+  string cmd = info[0].As<Napi::String>();
+  Napi::Function cb = info[1].As<Napi::Function>();
+
+  array<char, 128> buffer;
+  unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd.c_str(), "r"), pclose);
+  
+  if (!pipe) {
+    Napi::TypeError::New(env, "popen() failed!").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+  
+  while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+    cb.Call(env.Global(), {Napi::String::New(env, buffer.data())});
+  }
+  
+  return env.Null();
 }
 
 // Create a new item using the constructor stored during Init.

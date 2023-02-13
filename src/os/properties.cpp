@@ -1,6 +1,8 @@
 #include <napi.h>
 #include <sys/system_properties.h>
 #include <internal/os/properties.h>
+#include <internal/internal/properties.h>
+
 
 using namespace std;
 using namespace Napi;
@@ -8,7 +10,9 @@ using namespace Napi;
 Napi::Object BaseProperties::Init(Napi::Env env, Napi::Object exports) {
     // This method is used to hook the accessor and method callbacks
     Napi::Function func = DefineClass(env, "BaseProperties", {
-        StaticMethod<&BaseProperties::GetProp>("get", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
+        StaticMethod<&BaseProperties::GetProp>("native_get", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
+        StaticMethod<&BaseProperties::GetPropBool>("native_getBoolean", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
+        StaticMethod<&BaseProperties::GetPropInt>("native_getInt", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
         StaticMethod<&BaseProperties::SetProp>("set", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
         StaticMethod<&BaseProperties::CreateNewItem>("CreateNewItem", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
     });
@@ -39,6 +43,31 @@ BaseProperties::BaseProperties(const Napi::CallbackInfo& info) :
   Napi::Env env = info.Env();
 }
 
+Napi::Value BaseProperties::GetPropInt(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  
+  if (info.Length() < 2) {
+    Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+  
+  if (!info[0].IsString()) {
+    Napi::TypeError::New(env, "The key should be an string").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+  
+  if (!info[1].IsNumber()) {
+    Napi::TypeError::New(env, "The default value should be an number").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+  
+  string key = info[0].As<Napi::String>();
+  int def = info[1].As<Napi::Number>();
+  
+  int value = property_get_int64(key.c_str(), def);
+
+  return Napi::Number::New(env, value);
+}
 
 Napi::Value BaseProperties::GetProp(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
@@ -58,18 +87,45 @@ Napi::Value BaseProperties::GetProp(const Napi::CallbackInfo& info) {
     return env.Null();
   }
   
-  string name = info[0].As<Napi::String>();
+  string key = info[0].As<Napi::String>();
   string def = info[1].As<Napi::String>();
   
   char value[PROP_VALUE_MAX] = {0};
-  __system_property_get(name.c_str(), value);
+  /*__system_property_get(name.c_str(), value);
   if (strlen (value) == 0) {
     return Napi::String::New(env, def);
   } else {
     return Napi::String::New(env, value);
+  }*/
+  property_get(key.c_str(), value, def.c_str());
+
+  return Napi::String::New(env, value);
+}
+
+Napi::Value BaseProperties::GetPropBool(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  
+  if (info.Length() < 2) {
+    Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
+    return env.Null();
   }
+  
+  if (!info[0].IsString()) {
+    Napi::TypeError::New(env, "The key should be an string").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+  
+  if (!info[1].IsBoolean()) {
+    Napi::TypeError::New(env, "The default value should be an boolean").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+  
+  string key = info[0].As<Napi::String>();
+  bool def = info[1].As<Napi::Boolean>();
+  
+  int8_t value = property_get_bool(key.c_str(), def);
 
-
+  return Napi::Boolean::New(env, value);
 }
 
 Napi::Value BaseProperties::SetProp(const Napi::CallbackInfo& info) {
@@ -88,9 +144,9 @@ Napi::Value BaseProperties::SetProp(const Napi::CallbackInfo& info) {
   string name = info[0].As<Napi::String>();
   string value = info[1].As<Napi::String>();
   
-  int rc = __system_property_set(name.c_str(), value.c_str());
+  int rc = property_set(name.c_str(), value.c_str());
   if (rc == -1) {
-    Napi::TypeError::New(env, "SystemProperties.get failed").ThrowAsJavaScriptException();
+    Napi::TypeError::New(env, "SystemProperties.set failed").ThrowAsJavaScriptException();
     return env.Null();
   }
   

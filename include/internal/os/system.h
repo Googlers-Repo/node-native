@@ -15,7 +15,7 @@ class BaseSystem : public Napi::ObjectWrap<BaseSystem> {
     static Napi::Value GetEnv(const Napi::CallbackInfo& info);
     static Napi::Value SetEnv(const Napi::CallbackInfo& info);
     static Napi::Value Cmd(const Napi::CallbackInfo& info);
-    static Napi::Value Uname(const Napi::CallbackInfo& info);
+    static Napi::Value Spawn(const Napi::CallbackInfo& info);
 };
 
 #endif
