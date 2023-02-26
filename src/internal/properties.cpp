@@ -92,30 +92,3 @@ int property_get(const char* key, char* value, const char* default_value) {
     }
     return len;
 }
-
-/*
-#if __has_include(<sys/system_properties.h>)
-
-#define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
-#include <sys/_system_properties.h>
-
-struct callback_data {
-    void (*callback)(const char* name, const char* value, void* cookie);
-    void* cookie;
-};
-
-static void trampoline(void* raw_data, const char* name, const char* value, unsigned /*serial) {
-    callback_data* data = reinterpret_cast<callback_data*>(raw_data);
-    data->callback(name, value, data->cookie);
-}
-
-static void property_list_callback(const prop_info* pi, void* data) {
-    __system_property_read_callback(pi, trampoline, data);
-}
-
-int property_list(void (*fn)(const char* name, const char* value, void* cookie), void* cookie) {
-    callback_data data = {fn, cookie};
-    return __system_property_foreach(property_list_callback, &data);
-}
-
-#endif*/
